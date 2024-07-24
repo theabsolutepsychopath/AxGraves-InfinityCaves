@@ -65,7 +65,7 @@ public class Grave {
         if (loc.getWorld().getEnvironment().equals(World.Environment.NETHER) || loc.getWorld().getEnvironment().equals(World.Environment.THE_END)) {
             loc.setY(Math.max(loc.getY(), CONFIG.getDouble("spawn-height-limits." + loc.getWorld().getName() + ".min", 0)));
         } else {
-            loc.setY(Math.max(loc.getY(), CONFIG.getDouble("spawn-height-limits." + loc.getWorld().getName() + ".min", -64)));
+            loc.setY(Math.max(loc.getY(), CONFIG.getDouble("spawn-height-limits." + loc.getWorld().getName() + ".min", -128)));
         }
         loc.setY(Math.min(loc.getY(), CONFIG.getDouble("spawn-height-limits." + loc.getWorld().getName() + ".max", 319)));
 
