@@ -2,6 +2,7 @@ package com.artillexstudios.axgraves.commands.subcommands;
 
 import com.artillexstudios.axgraves.grave.Grave;
 import com.artillexstudios.axgraves.grave.SpawnedGraves;
+import com.artillexstudios.axgraves.schedulers.SaveGraves;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,10 +13,10 @@ import static com.artillexstudios.axgraves.AxGraves.EXECUTOR;
 import static com.artillexstudios.axgraves.AxGraves.MESSAGES;
 import static com.artillexstudios.axgraves.AxGraves.MESSAGEUTILS;
 
-public class SubCommandReload {
+public enum SubCommandReload {
+    INSTANCE;
 
     public void subCommand(@NotNull CommandSender sender) {
-
         final String errorMsg = CONFIG.getString("prefix") + MESSAGES.getString("reload.failed");
 
         if (!CONFIG.reload()) {
@@ -28,13 +29,15 @@ public class SubCommandReload {
             return;
         }
 
-
         EXECUTOR.execute(() -> {
             for (Grave grave : SpawnedGraves.getGraves()) {
                 grave.reload();
                 grave.update();
             }
         });
+
+        SaveGraves.start();
+
         MESSAGEUTILS.sendLang(sender, "reload.success");
     }
 }

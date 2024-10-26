@@ -18,7 +18,8 @@ import static com.artillexstudios.axgraves.AxGraves.CONFIG;
 import static com.artillexstudios.axgraves.AxGraves.MESSAGES;
 import static com.artillexstudios.axgraves.AxGraves.MESSAGEUTILS;
 
-public class SubCommandList {
+public enum SubCommandList {
+    INSTANCE;
 
     public void subCommand(@NotNull CommandSender sender) {
         if (SpawnedGraves.getGraves().isEmpty()) {
@@ -30,7 +31,11 @@ public class SubCommandList {
 
         int dTime = CONFIG.getInt("despawn-time-seconds", 180);
         for (Grave grave : SpawnedGraves.getGraves()) {
-            if (!sender.hasPermission("axgraves.list.other") && sender instanceof Player && grave.getPlayer().getUniqueId() != ((Player) sender).getUniqueId()) continue;
+            if (!sender.hasPermission("axgraves.list.other") &&
+                    sender instanceof Player &&
+                    !grave.getPlayer().equals(sender)
+            ) continue;
+
             final Location l = grave.getLocation();
 
             final Map<String, String> map = Map.of("%player%", grave.getPlayerName(),
